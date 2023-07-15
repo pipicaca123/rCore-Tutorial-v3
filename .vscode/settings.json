@@ -10,4 +10,13 @@
     // "rust-analyzer.cargo.features": [
     //     "board_qemu"
     // ]
+    "rust-analyzer.checkOnSave.extraArgs": [
+        "--target",
+        "riscv64gc-unknown-none-elf"
+        ],
+    
+    "[rust]": {
+        "editor.defaultFormatter": "rust-lang.rust-analyzer",
+        "editor.formatOnSave": true
+    }
 }
