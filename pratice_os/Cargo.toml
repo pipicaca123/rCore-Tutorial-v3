@@ -1,16 +1,16 @@
 [package]
-name = "os"
+name = "pratice_os"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-# temp. workaround with below issue: 
-# error: language item required, but not found: `eh_personality`
-# when panic occurs, abort immediately.
-[profile.dev]
-panic = "abort"
+log = "0.4"
+sbi-rt = { version = "0.0.2", features = ["legacy"] }
+
+# [profile.dev]
+# debug = true
 
 [profile.release]
-panic = "abort"
+debug = true

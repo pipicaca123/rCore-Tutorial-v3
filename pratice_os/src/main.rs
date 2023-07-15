@@ -4,15 +4,19 @@
 #[macro_use]
 mod console;
 mod lang_items;
+mod logging;
 mod sbi;
 
 use core::arch::global_asm;
+// TODO: modify with rust origin logger, not my console one.
+// use log::*;
 global_asm!(include_str!("entry.asm")); // first instruction in kernel
 
 #[no_mangle] // tell compiler not to modify the name
 pub fn rust_main() -> ! {
     clear_bss();
-    println!("Hello, world!");
+    println!("[kernel] Hello, world!");
+    logging::init();
     get_kernel_base_info();
     panic!("Shutdown machine!");
 }
@@ -31,25 +35,28 @@ fn get_kernel_base_info() {
         fn stext();
         fn etext();
         fn _start();
-
         fn sdata();
         fn edata();
-
         fn srodata();
         fn erodata();
-
         fn sbss();
         fn ebss();
     }
     info!(
-        "text range:[{:#x}, {:#x}], _start:{:#x}",
+        "[kernel]text range:[{:#x}, {:#x}], _start:{:#x}",
         stext as usize, etext as usize, _start as usize
     );
-    info!("data range:[{:#x}, {:#x}]", sdata as usize, edata as usize);
     info!(
-        "rodata range:[{:#x}, {:#x}]",
+        "[kernel] data range:[{:#x}, {:#x}]",
+        sdata as usize, edata as usize
+    );
+    info!(
+        "[kernel] rodata range:[{:#x}, {:#x}]",
         srodata as usize, erodata as usize
     );
 
-    info!("bss range: [{:#x}, {:#x}]", sbss as usize, ebss as usize);
+    info!(
+        "[kernel] bss range: [{:#x}, {:#x}]",
+        sbss as usize, ebss as usize
+    );
 }
