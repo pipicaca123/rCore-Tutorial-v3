@@ -1,4 +1,4 @@
-    .section .text.entry
+    .section .text.entry # put infomation all into the section which name as .text.entry
     .globl _start
 
 _start:

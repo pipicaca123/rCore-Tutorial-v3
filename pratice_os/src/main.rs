@@ -7,10 +7,8 @@ mod lang_items;
 mod sbi;
 
 use core::arch::global_asm;
-global_asm!(include_str!("entry.asm"));
-// fn main() {
-//     // println!("Hello, world!");
-// }
+global_asm!(include_str!("entry.asm")); // first instruction in kernel
+
 #[no_mangle] // tell compiler not to modify the name
 pub fn rust_main() -> ! {
     clear_bss();
@@ -24,4 +22,5 @@ fn clear_bss() {
         fn ebss();
     }
     (sbss as usize..ebss as usize).for_each(|a| unsafe { (a as *mut u8).write_volatile(0) });
+    // iterator [sbss_addr, sbss_addr + usize, ..., ebss_addr -usize]
 }

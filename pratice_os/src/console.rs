@@ -12,6 +12,7 @@ impl Write for Stdout {
 }
 
 pub fn print(args: fmt::Arguments) {
+    // call write_str in bottom layer, see in mod.rs (rust lib)
     Stdout.write_fmt(args).unwrap();
 }
 
