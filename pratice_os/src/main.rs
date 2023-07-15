@@ -13,6 +13,7 @@ global_asm!(include_str!("entry.asm")); // first instruction in kernel
 pub fn rust_main() -> ! {
     clear_bss();
     println!("Hello, world!");
+    get_kernel_base_info();
     panic!("Shutdown machine!");
 }
 
@@ -23,4 +24,32 @@ fn clear_bss() {
     }
     (sbss as usize..ebss as usize).for_each(|a| unsafe { (a as *mut u8).write_volatile(0) });
     // iterator [sbss_addr, sbss_addr + usize, ..., ebss_addr -usize]
+}
+
+fn get_kernel_base_info() {
+    extern "C" {
+        fn stext();
+        fn etext();
+        fn _start();
+
+        fn sdata();
+        fn edata();
+
+        fn srodata();
+        fn erodata();
+
+        fn sbss();
+        fn ebss();
+    }
+    info!(
+        "text range:[{:#x}, {:#x}], _start:{:#x}",
+        stext as usize, etext as usize, _start as usize
+    );
+    info!("data range:[{:#x}, {:#x}]", sdata as usize, edata as usize);
+    info!(
+        "rodata range:[{:#x}, {:#x}]",
+        srodata as usize, erodata as usize
+    );
+
+    info!("bss range: [{:#x}, {:#x}]", sbss as usize, ebss as usize);
 }
