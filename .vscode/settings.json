@@ -18,5 +18,8 @@
     "[rust]": {
         "editor.defaultFormatter": "rust-lang.rust-analyzer",
         "editor.formatOnSave": true
-    }
+    },
+    "rust-analyzer.linkedProjects": [
+        "./rust_pratice/Cargo.toml"
+    ]
 }
